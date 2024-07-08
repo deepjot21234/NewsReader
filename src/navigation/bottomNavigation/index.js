@@ -1,10 +1,10 @@
 import AnDesign from "react-native-vector-icons/AntDesign";
+import Details from "../../pages/Details";
+import Home from "../../pages/Home";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { useState } from "react";
-import Home from "../../pages/Home";
-import Details from "../../pages/Details";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -44,11 +44,7 @@ const BottomTabNavigation = () => {
           options={{
             tabBarLabel: "Updates",
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                name="bell"
-                color={color}
-                size={26}
-              />
+              <AnDesign name="search1" color={color} size={26} />
             ),
           }}
         />
@@ -61,7 +57,7 @@ const BottomTabNavigation = () => {
             },
           }}
           options={{
-            tabBarLabel: "Profile",
+            tabBarLabel: "About",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="account" color={color} size={26} />
             ),
