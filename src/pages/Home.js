@@ -1,4 +1,10 @@
-import { Button, Card, Paragraph, Title } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Button,
+  Card,
+  Paragraph,
+  Title,
+} from "react-native-paper";
 import { Modal, ScrollView, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -9,6 +15,7 @@ const NewsScreen = () => {
   const [articles, setArticles] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [loading, setLoading] = useState(true); // Added loading state
 
   useEffect(() => {
     fetchNewsData();
@@ -25,6 +32,8 @@ const NewsScreen = () => {
       setArticles(response.data.articles);
     } catch (error) {
       console.error("Error fetching news data:", error);
+    } finally {
+      setLoading(false); // Set loading to false after fetching data
     }
   };
 
@@ -40,20 +49,24 @@ const NewsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        {articles.map((article) => (
-          <Card key={article.url} style={styles.card}>
-            <Card.Cover source={{ uri: article?.urlToImage }} />
-            <Card.Content>
-              <Title>{article?.title}</Title>
-              <Paragraph>{article?.description}</Paragraph>
-            </Card.Content>
-            <Card.Actions>
-              <Button onPress={() => openModal(article)}>Read More</Button>
-            </Card.Actions>
-          </Card>
-        ))}
-      </ScrollView>
+      {loading ? (
+        <ActivityIndicator size="large" style={styles.loadingIndicator} />
+      ) : (
+        <ScrollView>
+          {articles.map((article) => (
+            <Card key={article.url} style={styles.card}>
+              <Card.Cover source={{ uri: article?.urlToImage }} />
+              <Card.Content>
+                <Title>{article?.title}</Title>
+                <Paragraph>{article?.description}</Paragraph>
+              </Card.Content>
+              <Card.Actions>
+                <Button onPress={() => openModal(article)}>Read More</Button>
+              </Card.Actions>
+            </Card>
+          ))}
+        </ScrollView>
+      )}
 
       <Modal
         visible={modalVisible}
@@ -87,6 +100,9 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 16,
+  },
+  loadingIndicator: {
+    marginTop: 20,
   },
   modalContainer: {
     flex: 1,

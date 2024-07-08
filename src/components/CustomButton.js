@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import React from "react";
 
-const CustomButton = ({ title }) => {
+const CustomButton = ({ title, navigation }) => {
   return (
     <View>
       <TouchableOpacity
@@ -12,7 +12,8 @@ const CustomButton = ({ title }) => {
           backgroundColor: "yellow",
           justifyContent: "center",
           borderRadius: 20,
-        }}>
+        }}
+        onPress={() => navigation.navigate("BottomNav")}>
         <Text style={{ textAlign: "center", fontWeight: "bold" }}>{title}</Text>
       </TouchableOpacity>
     </View>

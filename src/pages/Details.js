@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Button,
   Card,
   Modal,
@@ -16,6 +17,7 @@ const Details = () => {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const openModal = (article) => {
     setSelectedArticle(article);
@@ -32,6 +34,8 @@ const Details = () => {
       return; // Don't search if query is empty or whitespace
     }
 
+    setLoading(true);
+
     try {
       const response = await axios.get("https://newsapi.org/v2/everything", {
         params: {
@@ -43,6 +47,8 @@ const Details = () => {
     } catch (error) {
       console.error("Error searching news:", error);
       setSearchResults([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,6 +81,8 @@ const Details = () => {
             Please Add titile that you want to seach in search box Thanks!
           </Text>
         </View>
+      ) : loading ? (
+        <ActivityIndicator size="large" style={styles.loadingIndicator} />
       ) : (
         <ScrollView style={styles.resultContainer}>
           {searchResults.map((article) => (
